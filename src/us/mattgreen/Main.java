@@ -74,7 +74,7 @@ public class Main {
                 int count = 0;
             for (Map.Entry<String, Integer> entry : newMap.entrySet()) {
                     if(entry.getValue() == 1){
-                    System.out.println(entry.getKey() + " " + entry.getValue());
+                    System.out.println(entry.getKey());
                     count++;
                     }
                 }
