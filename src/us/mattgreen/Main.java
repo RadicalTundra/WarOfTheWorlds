@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Main {
 
@@ -22,9 +23,10 @@ public class Main {
     public Main() {
         String line;
         String[] words;
-
         while ((line = indata.fileReadLine()) != null) {
             // Remove anything that's not a letter or space
+            line = line.replaceAll("\\--", " ");
+            line = line.replaceAll("\\-", " ");
             line = line.replaceAll("[^a-zA-Z ]","")
                     .toLowerCase().trim();
            
@@ -49,23 +51,43 @@ public class Main {
 
             } 
         }
-        Map<String, Integer> newMap = sortByValue(map); 
-        int a = 0;
-        System.out.println("The Top ten most used words in the file: ");
+        int b = 0;
+        while(b == 0){
+        System.out.println("1. Top Ten Most Used Words In The File.");
+        System.out.println("2. All the words that were only used once in the file.");
+        System.out.println("3. Exit");
+        Scanner sc = new Scanner(System.in);
+        try{
+            int userMenu = sc.nextInt();
+            Map<String, Integer> newMap = sortByValue(map); 
+            int a = 0;
+            if(userMenu == 1){
+                for (Map.Entry<String, Integer> entry : newMap.entrySet()) {
+                    if(a < 10){
+                    System.out.println(entry.getKey() + " " + entry.getValue());
+                    }
+                    a++;
+                }
+                System.out.println("\n");
+            }
+            else if(userMenu == 2){
+                int count = 0;
             for (Map.Entry<String, Integer> entry : newMap.entrySet()) {
-                if(a < 10){
-                System.out.println(entry.getKey() + " " + entry.getValue());
+                    if(entry.getValue() == 1){
+                    System.out.println(entry.getKey() + " " + entry.getValue());
+                    count++;
+                    }
                 }
-                a++;
+            System.out.println("\nThere are " + count + " words that are used only once.\n");
             }
-            
-        System.out.println("All the words that were only used once in the file: ");
-        for (Map.Entry<String, Integer> entry : newMap.entrySet()) {
-                if(entry.getValue() == 1){
-                System.out.println(entry.getKey() + " " + entry.getValue());
-                }
+            else if(userMenu == 3){
+                b = 1;
             }
+        }catch(Exception e){
+            System.out.println("\nPlease enter a number ya goof!\n");
+        }
         } 
+    }
     // code found here. https://www.geeksforgeeks.org/sorting-a-hashmap-according-to-values/ 
     // Slightly modified for functionality
     private Map<String, Integer> sortByValue(Map<String, Integer> map) {
